@@ -1,4 +1,6 @@
-"use strict";
+/** Project Purple Cow
+  * Simple express-based RESTful API satisfying basic CRUD operations
+  * on Items. Item records are persisted in a PostgreSQL database. */
 
 const express = require("express");
 
@@ -8,6 +10,10 @@ const bodyParser = require("body-parser");
 
 const APP_PORT = process.env.PORT || 3000;
 const APP_HOST = process.env.HOST || "127.0.0.1";
+
+// Initialize database before application startup to prevent wasting time
+// in the event the server is unable to connect.
+require('config/dbconfig.js');
 
 /////////////// Middlewares ///////////////
 

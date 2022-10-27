@@ -1,17 +1,45 @@
 # Compose file used for local development
 
 ---
-version: "3.4"
+version: "3.8"
 services:
+  # Could use .env file here as a nice-to-have
   api:
-    env_file: .env
+    tty: true
     build:
       context: .
       target: build
+    networks:
+      - database
     ports:
-      - "${PORT}:${PORT}"
+      - "3000:3000"
+
+    # 'database' service registered in /etc/hosts due to shared network
+    environment:
+      DB_HOST: "database"
+      DB_PASS: "dev_password"
+      DB_USER: "dev_user"
+
     volumes:
       - ./src:/app
       - node_modules:/app/node_modules
+
+  database:
+    tty: true
+    image: postgres:15.0
+    networks:
+      - database
+
+    environment:
+      USER_PASSWORD: "dev_password"
+      POSTGRES_PASSWORD: "dev_password"
+
+    volumes:
+      - data:/var/lib/postgresql/data
+
+networks:
+  database:
+
 volumes:
+  data:
   node_modules:

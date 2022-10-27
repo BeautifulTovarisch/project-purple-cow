@@ -1,21 +1,21 @@
 # Build Stage
 
-FROM node:8.11.3 as build
+FROM node:19.0.0 as build
 WORKDIR /app
 
 COPY package.json .
-COPY package.lock .
+COPY package-lock.json .
+COPY src .
 
 RUN npm install
 RUN npm test
-
-COPY src /app
+RUN npm run build
 
 CMD [ "npm", "start" ]
 
 # Production Image
 
-FROM node:8.11.3-alpine
+FROM node:19.0.0-alpine
 
 RUN groupadd -r nodejs \
    && useradd -m -r -g nodejs nodejs

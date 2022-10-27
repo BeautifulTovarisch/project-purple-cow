@@ -4,3 +4,4 @@ main.bundle.js
 *.log
 *.bundle.js
 .env
+dist/

@@ -7,7 +7,8 @@
         "test": "jest",
         "build": "tsc",
         "lint": "TIMING=1 eslint src --fix",
-        "start": "node server.js"
+        "start": "node server.js",
+        "format": "prettier --write \"**/*.ts\""
     },
     "repository": {},
     "author": "Anthony Re",

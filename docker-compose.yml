@@ -1,0 +1,17 @@
+# Compose file used for local development
+
+---
+version: "3.4"
+services:
+  api:
+    env_file: .env
+    build:
+      context: .
+      target: build
+    ports:
+      - "${PORT}:${PORT}"
+    volumes:
+      - ./src:/app
+      - node_modules:/app/node_modules
+volumes:
+  node_modules:

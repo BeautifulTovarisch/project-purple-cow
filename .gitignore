@@ -1,0 +1,6 @@
+node_modules/
+main.bundle.js
+
+*.log
+*.bundle.js
+.env

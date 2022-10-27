@@ -6,7 +6,7 @@ const app = express();
 const path = require("path");
 const bodyParser = require("body-parser");
 
-const APP_PORT = process.env.PORT || 2305;
+const APP_PORT = process.env.PORT || 3000;
 const APP_HOST = process.env.HOST || "127.0.0.1";
 
 /////////////// Middlewares ///////////////

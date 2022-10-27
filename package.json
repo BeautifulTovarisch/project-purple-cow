@@ -2,12 +2,12 @@
     "name": "project-purple-cow",
     "version": "0.0.1",
     "description": "Take-home assessment for Fearless",
-    "main": "server.js",
     "scripts": {
         "test": "jest",
         "build": "tsc",
         "lint": "TIMING=1 eslint src --fix",
-        "start": "node server.js",
+        "start": "node ./src/server.ts",
+        "clean": "rm -rf dist",
         "format": "prettier --write \"**/*.ts\""
     },
     "repository": {},

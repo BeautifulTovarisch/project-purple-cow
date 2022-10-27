@@ -11,8 +11,6 @@ const APP_HOST = process.env.HOST || "127.0.0.1";
 
 /////////////// Middlewares ///////////////
 
-app.use(morgan("dev"));
-app.use(methodOverride());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(__dirname));

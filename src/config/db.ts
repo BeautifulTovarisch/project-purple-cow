@@ -15,6 +15,6 @@ export default Knex({
     port: 5432,
     user: dbUser,
     password: dbPass,
-    database: "proj-purple-cow",
+    database: "proj_purple_cow",
   },
 });

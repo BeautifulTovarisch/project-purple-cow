@@ -2,7 +2,7 @@
  * This sub-router handles RESTful operations against [Items]. Routes are
  * registered under the /items prefix. */
 
-import { Router, Request, Response } from "express";
+import { Router, Request, Response, NextFunction } from "express";
 
 import {
   getItem,
@@ -14,39 +14,35 @@ import {
 } from "./dal";
 
 // Alias route handler definition in order to save a few keystrokes.
-type RouteHandler = (req: Request, res: Response) => void;
+type RouteHandler = (req: Request, res: Response, next: NextFunction) => void;
 
 const ItemRouter = Router();
 
 // Could expose route handlers for more fine-grained unit testing
-// Could dramatically reduce duplication of error-handling constructs below
-// via general async handler.
 
-const handleGet: RouteHandler = async (req, res) => {
+const handleGet: RouteHandler = async (req, res, next) => {
   const { id } = req.params;
 
   try {
     const item = await getItem(Number(id));
 
-    if (!item) {
-      res.status(404).send("Item not found.");
-    }
+    res.send(item);
   } catch (e) {
-    res.status(500).send(e);
+    next(e);
   }
 };
 
-const handleGetAll: RouteHandler = async (_, res) => {
+const handleGetAll: RouteHandler = async (_, res, next) => {
   try {
     const items = await getItems();
 
     res.send(items);
   } catch (e) {
-    res.status(500).send(e);
+    next(e);
   }
 };
 
-const handleUpdate: RouteHandler = async (req, res) => {
+const handleUpdate: RouteHandler = async (req, res, next) => {
   const { id } = req.params;
   const { name } = req.body;
 
@@ -55,11 +51,11 @@ const handleUpdate: RouteHandler = async (req, res) => {
 
     res.send(updated);
   } catch (e) {
-    res.status(500).send(e);
+    next(e);
   }
 };
 
-const handleSetAll: RouteHandler = async (req, res) => {
+const handleSetAll: RouteHandler = async (req, res, next) => {
   const { items } = req.body;
 
   try {
@@ -67,11 +63,11 @@ const handleSetAll: RouteHandler = async (req, res) => {
 
     res.send(numSet);
   } catch (e) {
-    res.status(500).send(e);
+    next(e);
   }
 };
 
-const handleDelete: RouteHandler = async (req, res) => {
+const handleDelete: RouteHandler = async (req, res, next) => {
   const { id } = req.params;
 
   try {
@@ -79,17 +75,17 @@ const handleDelete: RouteHandler = async (req, res) => {
 
     res.send(deleted);
   } catch (e) {
-    res.status(500).send(e);
+    next(e);
   }
 };
 
-const handleDeleteAll: RouteHandler = async (_, res) => {
+const handleDeleteAll: RouteHandler = async (_, res, next) => {
   try {
     const numDeleted = await deleteAllItems();
 
     res.send(numDeleted);
   } catch (e) {
-    res.status(500).send(e);
+    next(e);
   }
 };
 
@@ -97,7 +93,7 @@ const handleDeleteAll: RouteHandler = async (_, res) => {
 ItemRouter.all("/:id", (req, res, next): RouteHandler => {
   const { id } = req.params;
 
-  if (!id) {
+  if (!Number(id)) {
     res.status(400).send("Invalid Identifier");
 
     return;

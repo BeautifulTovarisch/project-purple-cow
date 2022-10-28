@@ -6,16 +6,26 @@ import morgan from "morgan";
 import express from "express";
 import bodyParser from "body-parser";
 
+// Initialize database before application startup to prevent wasting time
+// in the event the client is unable to connect.
+import db from "./config/db.js";
+
 import ItemsRouter from "./items/router";
 
 const app = express();
 
-const APP_PORT = Number(process.env.PORT) || 3000;
-const APP_HOST = process.env.HOST || "127.0.0.1";
+const APP_PORT = Number(process.env.APP_PORT) || 3000;
+const APP_HOST = process.env.APP_HOST || "127.0.0.1";
 
-// Initialize database before application startup to prevent wasting time
-// in the event the client is unable to initialize.
-import "./config/db.js";
+const checkDb = async () => {
+  try {
+    await db.raw("SELECT 1 AS canary");
+  } catch (e) {
+    throw new Error(e);
+  }
+};
+
+checkDb();
 
 // Middlewares
 
@@ -27,10 +37,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use("/items", ItemsRouter);
 
-const errorHandler: express.ErrorRequestHandler = (err, _, res, next) => {
-  console.log(err);
+const errorHandler: express.ErrorRequestHandler = (err, _, res, _next) => {
+  console.error(err);
 
-  return err ? res.status(err.status || 500).end() : next();
+  return res.status(500).send({ err: err.message });
 };
 
 app.use(errorHandler);

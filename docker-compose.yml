@@ -16,6 +16,7 @@ services:
 
     # 'database' service registered in /etc/hosts due to shared network
     environment:
+      APP_HOST: '0.0.0.0'
       DB_HOST: "database"
       DB_PASS: "dev_password"
       DB_USER: "dev_user"
@@ -34,6 +35,8 @@ services:
       POSTGRES_PASSWORD: "dev_password"
 
     volumes:
+      # init SQL
+      - ./data/init.sql:/docker-entrypoint-initdb.d/init.sql
       - data:/var/lib/postgresql/data
 
 networks:

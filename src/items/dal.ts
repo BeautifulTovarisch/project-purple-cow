@@ -38,7 +38,7 @@ export const deleteAllItems = (): Promise<number> => db(table).del();
  * @returns a Promise containing the number of items inserted or an error. */
 export const setItems = (items: Array<Item>): Promise<number> =>
   db.transaction(async (trx: Knex.Transaction) => {
-      // Delete all existing items and replace with [items]
-      await trx(table).del();
-      await trx(table).insert(items);
+    // Delete all existing items and replace with [items]
+    await trx(table).del();
+    await trx(table).insert(items);
   });

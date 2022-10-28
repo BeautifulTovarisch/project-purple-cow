@@ -29,6 +29,8 @@ services:
     image: postgres:15.0
     networks:
       - database
+    ports:
+      - "5432:5432"
 
     environment:
       USER_PASSWORD: "dev_password"

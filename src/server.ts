@@ -21,7 +21,9 @@ const checkDb = async () => {
   try {
     await db.raw("SELECT 1 AS canary");
   } catch (e) {
-    throw new Error(e);
+    throw new Error(
+      "Unable to initialize database client. Please ensure postgresql is accepting connections before running server"
+    );
   }
 };
 

@@ -15,12 +15,12 @@ const APP_HOST = process.env.HOST || "127.0.0.1";
 // in the event the client is unable to initialize.
 require("config/dbconfig.js");
 
-/////////////// Middlewares ///////////////
+// Middlewares
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-/////////////// Routes ///////////////
+// Routes
 
 const itemsRouter = require(path.resolve("items/router"));
 

@@ -14,8 +14,10 @@ export const getItem = (id: number): Promise<Item> =>
  * @returns a Promise containing an array of Items or an error. */
 export const getItems = (): Promise<Array<Item>> => db("items");
 
-/** replaceitems(items) sets the current items in the table to [items].
+/** setItems(items) sets the current items in the table to [items].
  * @returns a Promise containing the number of items inserted or an error. */
+export const setItems = (items: Array<Item>): Promise<number> =>
+  db("items").del();
 
 /** updateItem(id, name) updates the name of item [id] to be [name].
  * @returns a Promise containing [item] updated or an error.  */
@@ -24,12 +26,12 @@ export const updateItem = (id: number, name: string): Promise<Item> =>
     name,
   });
 
-/** deleteAllItems() removes all items from the database.
- * @returns a Promise containing the number of items deleted or an error. */
-export const deleteAllItems = (): Promise<number> => db("items").del();
-
 /** deleteItem(id) removes item [id] from the database.
  * @returns an Promise containing the [id] of the deleted item or
  * an error. */
 export const deleteItem = (id: number): Promise<number> =>
-  db("items").where("id", id).del();
+  db("items").where("id", id).del(["id"]);
+
+/** deleteAllItems() removes all items from the database.
+ * @returns a Promise containing the number of items deleted or an error. */
+export const deleteAllItems = (): Promise<number> => db("items").del();

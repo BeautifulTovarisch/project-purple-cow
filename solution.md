@@ -12,6 +12,7 @@ persisted in a PostgreSQL database.
 Please ensure the following software is installed:
 
 |Name|Version|
+|:---|-------|
 |Docker|20.0.0+|
 |Docker Compose Plugin|2.0.0+|
 |Node|19|

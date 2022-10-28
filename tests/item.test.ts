@@ -53,7 +53,10 @@ describe("Items", () => {
   });
 
   test("Get individual item", async () => {
-    const inserted = await db("ppc.items").insert({ name: "TestA" }, [ 'id', 'name' ]);
+    const inserted = await db("ppc.items").insert({ name: "TestA" }, [
+      "id",
+      "name",
+    ]);
 
     const res = await axios.get(`${url}/${inserted[0].id}`);
 
